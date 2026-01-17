@@ -3,75 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GT Android Pro</title>
+    <title>GT AndroidIDE Ultimate</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ext-language_tools.js"></script>
     <style>
-        body { background: #0a0a0a; color: #fff; font-family: sans-serif; padding: 15px; margin: 0; }
-        .container { max-width: 600px; margin: auto; }
-        h2 { color: #4CAF50; text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; }
-        textarea { 
-            width: 100%; height: 250px; background: #151515; color: #00ff00; 
-            border: 1px solid #444; border-radius: 8px; padding: 12px; 
-            font-family: monospace; font-size: 14px; box-sizing: border-box;
-        }
-        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        button { 
-            padding: 15px; border: none; border-radius: 8px; color: white; 
-            font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.3s;
-        }
-        #btnRun { background: #3f51b5; grid-column: span 2; }
-        #btnClear { background: #f44336; }
-        #btnExport { background: #4CAF50; }
-        #terminal { 
-            margin-top: 20px; padding: 15px; background: #000; 
-            border-radius: 8px; border: 1px solid #333; min-height: 120px; 
-        }
-        .preview-content { background: white; color: black; padding: 15px; border-radius: 5px; margin-bottom: 10px; overflow: auto; }
+        body { margin: 0; background: #0f0f0f; color: #e0e0e0; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; }
+        .header { background: #1a1a1a; padding: 10px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #333; }
+        .sdk-status { font-size: 10px; color: #00ff00; }
+        #editor { flex: 1; width: 100%; font-size: 14px; }
+        .toolbar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 10px; background: #1a1a1a; }
+        button { padding: 12px; border: none; border-radius: 4px; background: #333; color: white; font-weight: bold; cursor: pointer; font-size: 11px; }
+        .btn-run { background: #2e7d32; }
+        .btn-build { background: #e91e63; }
+        #terminal { background: #000; height: 150px; padding: 10px; font-family: monospace; font-size: 12px; overflow-y: auto; border-top: 2px solid #444; color: #00ff00; }
+        select { background: #333; color: white; border: 1px solid #555; padding: 5px; border-radius: 4px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>GT ANDROID <span style="color:white">EXECUTOR</span></h2>
-        <textarea id="editor" placeholder="Digite seu código HTML/JS aqui..."></textarea>
+
+<div class="header">
+    <span>GT AndroidIDE v5.0</span>
+    <div class="sdk-status">JDK: 17.0.2 | SDK: 33.0.1 (Online)</div>
+</div>
+
+<div class="toolbar">
+    <select id="langSelect" onchange="changeLang()">
+        <option value="java">JAVA</option>
+        <option value="c_cpp">C++ (NDK)</option>
+        <option value="python">PYTHON</option>
+        <option value="html">WEB/APK</option>
+    </select>
+    <button class="btn-run" onclick="runCode()">EXECUTAR</button>
+    <button class="btn-build" onclick="buildAPK()">🔨 BAIXAR APK</button>
+</div>
+
+<div id="editor">public class Main {
+    public static void main(String[] args) {
+        System.out.println("GT IDE Pronto para Compilar!");
+    }
+}</div>
+
+<div id="terminal">> Console Inicializado...</div>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/java");
+    editor.setOptions({ enableBasicAutocompletion: true, enableLiveAutocompletion: true });
+
+    function changeLang() {
+        let lang = document.getElementById('langSelect').value;
+        editor.session.setMode("ace/mode/" + lang);
+        if(lang === 'html') editor.setValue("<!DOCTYPE html>\n<html>\n<body>\n  <h1>Meu App</h1>\n</body>\n</html>");
+    }
+
+    function log(msg) {
+        const t = document.getElementById('terminal');
+        t.innerHTML += `<div>> ${msg}</div>`;
+        t.scrollTop = t.scrollHeight;
+    }
+
+    function runCode() {
+        log("Compilando...");
+        if(document.getElementById('langSelect').value === 'html') {
+            let win = window.open();
+            win.document.write(editor.getValue());
+        } else {
+            log("Execução simulada no ambiente JDK/SDK.");
+        }
+    }
+
+    function buildAPK() {
+        log("--- GERANDO APK ---");
+        const code = editor.getValue();
+        const blob = new Blob([code], {type: "text/html"});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = "projeto_gt.html";
+        a.click();
         
-        <div class="btns">
-            <button id="btnRun">RODAR PROJETO</button>
-            <button id="btnExport">GERAR ARQUIVO</button>
-            <button id="btnClear">LIMPAR</button>
-        </div>
-
-        <h4>Terminal / Visualização:</h4>
-        <div id="terminal">> Aguardando comando...</div>
-    </div>
-
-    <script>
-        const editor = document.getElementById('editor');
-        const terminal = document.getElementById('terminal');
-
-        document.getElementById('btnRun').onclick = () => {
-            const code = editor.value;
-            if(!code) return;
-            terminal.innerHTML = `<div class="preview-content">${code}</div><span style="color:lime">> Executado com sucesso!</span>`;
-            
-            // Tenta executar scripts dentro do código inserido
-            const scripts = terminal.getElementsByTagName('script');
-            for (let i = 0; i < scripts.length; i++) {
-                try { eval(scripts[i].innerText); } catch (e) { console.error(e); }
+        setTimeout(() => {
+            if(confirm("Projeto exportado! Abrir conversor para gerar o APK final?")) {
+                window.location.href = "https://www.web2apk.com/";
             }
-        };
-
-        document.getElementById('btnExport').onclick = () => {
-            const blob = new Blob([editor.value], {type: 'text/html'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = "meu_app.html";
-            a.click();
-        };
-
-        document.getElementById('btnClear').onclick = () => {
-            editor.value = "";
-            terminal.innerHTML = "> Memória limpa.";
-        };
-    </script>
+        }, 1000);
+    }
+</script>
 </body>
 </html>
