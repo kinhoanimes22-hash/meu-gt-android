@@ -1,0 +1,25 @@
+<div style="background: #1a1a1a; color: white; height: 100vh; padding: 15px; font-family: sans-serif;">
+    <h3 style="color: #4CAF50;">AndroidIDE Lite</h3>
+    <p style="font-size: 12px; color: #888;">Editor de arquivo único</p>
+    
+    <textarea id="ed" style="width: 100%; height: 60%; background: #000; color: #0f0; border: 1px solid #333; margin-top: 10px; padding: 10px; border-radius: 5px;"></textarea>
+    
+    <button onclick="executar()" style="width: 100%; padding: 15px; background: #3f51b5; color: white; border: none; margin-top: 10px; border-radius: 5px; font-weight: bold;">RODAR PROJETO</button>
+    
+    <div id="res" style="margin-top: 15px; padding: 10px; background: #222; border-radius: 5px; min-height: 50px;">
+        Terminal de saída...
+    </div>
+</div>
+
+<script>
+function executar() {
+    const code = document.getElementById('ed').value;
+    const res = document.getElementById('res');
+    try {
+        res.innerHTML = "<b>Executando...</b><br>";
+        eval(code);
+    } catch(e) {
+        res.innerHTML = "<span style='color:red'>Erro: " + e + "</span>";
+    }
+}
+</script>
