@@ -30,21 +30,32 @@
     </footer>
 
     <script>
-        // Puxa os dados do arquivo lista.json que você corrigiu
-        fetch('lista.json')
-            .then(res => res.json())
-            .then(data => {
-                let html = '';
-                data.forEach(anime => {
-                    html += `
-                        <div class="anime-card">
-                            <img src="${anime.capa}" alt="${anime.titulo}">
-                            <h3>${anime.titulo}</h3>
-                            <button class="btn-play" onclick="location.href='${anime.link}'">Assistir</button>
-                        </div>`;
-                });
-                document.getElementById('animeList').innerHTML = html;
-            }).catch(err => console.error("Erro ao carregar lista:", err));
+        // LISTA DE ANIMES INTERNA (Para garantir que a imagem apareça)
+        const animes = [
+            {
+                "titulo": "Solo Leveling",
+                "capa": "https://image.tmdb.org/t/p/w500/z4lD6mB1n5wWf5Ff5Ff5Ff5.jpg", 
+                "backup_capa": "https://upload.wikimedia.org/wikipedia/pt/9/9c/Solo_Leveling_Webtoon.png",
+                "link": "LINK_AQUI"
+            },
+            {
+                "titulo": "One Piece",
+                "capa": "https://image.tmdb.org/t/p/w500/cMD9Ygz11xIxCnGXUSKXdr8a1co.jpg",
+                "link": "LINK_AQUI"
+            }
+        ];
+
+        const container = document.getElementById('animeList');
+        
+        animes.forEach(anime => {
+            container.innerHTML += `
+                <div class="anime-card">
+                    <img src="${anime.backup_capa}" alt="${anime.titulo}" onerror="this.src='https://via.placeholder.com/160x230?text=Erro+Imagem'">
+                    <h3>${anime.titulo}</h3>
+                    <button class="btn-play" onclick="location.href='${anime.link}'">Assistir</button>
+                </div>
+            `;
+        });
 
         function searchAnime() {
             let input = document.getElementById('search').value.toLowerCase();
