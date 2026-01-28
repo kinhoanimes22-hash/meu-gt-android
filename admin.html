@@ -1,30 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Painel GT ANIMES</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - GT ANIMES</title>
     <style>
-        body { background: #111; color: white; padding: 20px; font-family: sans-serif; }
-        input { width: 100%; padding: 10px; margin: 10px 0; background: #222; color: white; border: 1px solid #FF0000; }
-        button { width: 100%; padding: 15px; background: #FF0000; color: white; border: none; font-weight: bold; cursor: pointer; }
-        textarea { width: 100%; height: 120px; margin-top: 20px; background: #000; color: #0f0; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .form-group { background: #111; padding: 20px; border-radius: 10px; border: 1px solid #FF0000; max-width: 400px; margin: 0 auto; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #333; background: #222; color: #fff; }
+        .btn-add { background: #FF0000; color: #fff; border: none; padding: 12px; width: 95%; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .list-preview { margin-top: 30px; text-align: left; font-size: 14px; }
     </style>
 </head>
 <body>
-    <h2>Gerador de Itens GT ANIMES</h2>
-    <input type="text" id="n" placeholder="Nome do Anime">
-    <input type="text" id="c" placeholder="Link da Imagem da Capa">
-    <input type="text" id="v" placeholder="Link do Player de Vídeo">
-    <button onclick="copyCode()">GERAR CÓDIGO PARA O INDEX</button>
-    <textarea id="res" readonly></textarea>
+
+    <h2 style="color: #FF0000;">Adicionar Anime</h2>
+
+    <div class="form-group">
+        <input type="text" id="titulo" placeholder="Nome do Anime (Ex: Naruto)">
+        <input type="text" id="capa" placeholder="Link da Imagem (JPG/PNG)">
+        <input type="text" id="video" placeholder="Link do Vídeo/Player">
+        <button class="btn-add" onclick="gerarCodigo()">GERAR CÓDIGO JSON</button>
+    </div>
+
+    <div class="list-preview">
+        <p>Após gerar, copie o código e cole no seu arquivo <b>lista.json</b> no GitHub:</p>
+        <textarea id="resultado" style="width: 100%; height: 150px; background: #111; color: #0f0; border: 1px solid #333; padding: 10px;"></textarea>
+    </div>
 
     <script>
-        function copyCode() {
-            let n = document.getElementById('n').value;
-            let c = document.getElementById('c').value;
-            let v = document.getElementById('v').value;
-            let code = `<div class="anime-card">\n <img src="${c}">\n <h3>${n}</h3>\n <button class="btn-play" onclick="location.href='${v}'">Assistir</button>\n</div>`;
-            document.getElementById('res').value = code;
+        function gerarCodigo() {
+            const t = document.getElementById('titulo').value;
+            const c = document.getElementById('capa').value;
+            const v = document.getElementById('video').value;
+
+            if(!t || !c || !v) return alert("Preencha todos os campos!");
+
+            const novoAnime = {
+                "titulo": t,
+                "capa": "https://images.weserv.nl/?url=" + c,
+                "link": v
+            };
+
+            document.getElementById('resultado').value = JSON.stringify(novoAnime, null, 2) + ",";
         }
     </script>
+
 </body>
 </html>
