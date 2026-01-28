@@ -7,10 +7,31 @@
     <style>
         body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
-        .anime-card { background: #111; margin: 10px; padding: 10px; border-radius: 10px; width: 160px; border: 1px solid #222; }
-        .anime-card img { width: 100%; border-radius: 5px; height: 230px; object-fit: cover; background: #222; }
+        
+        /* Card do Anime */
+        .anime-card { 
+            background: #111; 
+            margin: 10px; 
+            padding: 10px; 
+            border-radius: 10px; 
+            width: 160px; 
+            border: 1px solid #222; 
+            position: relative; /* Importante para fixar a imagem */
+        }
+        
+        /* Imagem com fundo cinza caso falhe */
+        .anime-card img { 
+            width: 100%; 
+            border-radius: 5px; 
+            height: 230px; 
+            object-fit: cover; 
+            background-color: #333; 
+            display: block;
+        }
+
         .btn-play { background: #FF0000; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 5px; }
         input#search { width: 80%; padding: 12px; border-radius: 20px; border: 1px solid #FF0000; background: #000; color: #fff; margin-top: 20px; }
+        
         footer { margin-top: 30px; padding: 20px; border-top: 1px solid #222; }
         .link-footer { color: #666; font-size: 12px; text-decoration: none; }
         .btn-dev { display: inline-block; margin-top: 15px; color: #FF0000; text-decoration: none; border: 1px solid #FF0000; padding: 5px 15px; border-radius: 15px; font-size: 14px; }
@@ -30,17 +51,17 @@
     </footer>
 
     <script>
-        // LISTA DE ANIMES INTERNA (Para garantir que a imagem apareça)
+        // LISTA INTERNA (Segura e Rápida)
         const animes = [
             {
                 "titulo": "Solo Leveling",
-                "capa": "https://image.tmdb.org/t/p/w500/z4lD6mB1n5wWf5Ff5Ff5Ff5.jpg", 
-                "backup_capa": "https://upload.wikimedia.org/wikipedia/pt/9/9c/Solo_Leveling_Webtoon.png",
+                // Link Oficial do Crunchyroll (Alta Confiabilidade)
+                "capa": "https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/5e7f533c3b4f462440d9904d9e07505d.jpg",
                 "link": "LINK_AQUI"
             },
             {
                 "titulo": "One Piece",
-                "capa": "https://image.tmdb.org/t/p/w500/cMD9Ygz11xIxCnGXUSKXdr8a1co.jpg",
+                "capa": "https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/757b30ec7d08387877408f6681b6c678.jpg",
                 "link": "LINK_AQUI"
             }
         ];
@@ -48,9 +69,14 @@
         const container = document.getElementById('animeList');
         
         animes.forEach(anime => {
+            // Adicionei um número aleatório (?v=...) no final da imagem para forçar o celular a baixar a imagem nova e não usar a velha
+            const cacheBuster = Math.floor(Math.random() * 1000);
+            
             container.innerHTML += `
                 <div class="anime-card">
-                    <img src="${anime.backup_capa}" alt="${anime.titulo}" onerror="this.src='https://via.placeholder.com/160x230?text=Erro+Imagem'">
+                    <img src="${anime.capa}?v=${cacheBuster}" 
+                         alt="${anime.titulo}" 
+                         onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/pt/9/9c/Solo_Leveling_Webtoon.png';">
                     <h3>${anime.titulo}</h3>
                     <button class="btn-play" onclick="location.href='${anime.link}'">Assistir</button>
                 </div>
@@ -67,4 +93,4 @@
         }
     </script>
 </body>
-</html> 
+</html>
