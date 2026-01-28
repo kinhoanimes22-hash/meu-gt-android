@@ -19,16 +19,10 @@
 <body>
 
     <h1 style="color: #FF0000; margin-top: 30px;">GT ANIMES</h1>
-
     <input type="text" id="search" onkeyup="searchAnime()" placeholder="Pesquisar anime...">
 
     <div class="container" id="animeList">
-        <div class="anime-card">
-            <img src="https://m.media-amazon.com/images/M/MV5BODViZGM5NmEtYzhhZS00YjVlLTg0Y2EtOTMwZDRlY2JjY2E2XkEyXkFqcGdeQXVyMTEzMTI1Mjk3._V1_.jpg" alt="Solo Leveling">
-            <h3>Solo Leveling</h3>
-            <button class="btn-play" onclick="location.href='#'">Assistir</button>
         </div>
-    </div>
 
     <footer>
         <a href="termos.html" class="link-footer">Termos de Uso e Privacidade</a><br>
@@ -36,6 +30,22 @@
     </footer>
 
     <script>
+        // Puxa os dados do arquivo lista.json que você corrigiu
+        fetch('lista.json')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.forEach(anime => {
+                    html += `
+                        <div class="anime-card">
+                            <img src="${anime.capa}" alt="${anime.titulo}">
+                            <h3>${anime.titulo}</h3>
+                            <button class="btn-play" onclick="location.href='${anime.link}'">Assistir</button>
+                        </div>`;
+                });
+                document.getElementById('animeList').innerHTML = html;
+            }).catch(err => console.error("Erro ao carregar lista:", err));
+
         function searchAnime() {
             let input = document.getElementById('search').value.toLowerCase();
             let cards = document.getElementsByClassName('anime-card');
