@@ -8,7 +8,6 @@
         body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; }
         .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
         
-        /* Card do Anime */
         .anime-card { 
             background: #111; 
             margin: 10px; 
@@ -16,17 +15,14 @@
             border-radius: 10px; 
             width: 160px; 
             border: 1px solid #222; 
-            position: relative; /* Importante para fixar a imagem */
         }
         
-        /* Imagem com fundo cinza caso falhe */
         .anime-card img { 
             width: 100%; 
             border-radius: 5px; 
             height: 230px; 
             object-fit: cover; 
-            background-color: #333; 
-            display: block;
+            background-color: #222; 
         }
 
         .btn-play { background: #FF0000; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 5px; }
@@ -51,17 +47,17 @@
     </footer>
 
     <script>
-        // LISTA INTERNA (Segura e Rápida)
+        // LISTA DE ANIMES (Com desbloqueador de imagem)
         const animes = [
             {
                 "titulo": "Solo Leveling",
-                // Link Oficial do Crunchyroll (Alta Confiabilidade)
-                "capa": "https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/5e7f533c3b4f462440d9904d9e07505d.jpg",
-                "link": "LINK_AQUI"
+                // O prefixo 'https://wsrv.nl/?url=' desbloqueia a imagem para apps Android
+                "capa": "https://wsrv.nl/?url=www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/5e7f533c3b4f462440d9904d9e07505d.jpg",
+                "link": "https://www.google.com" 
             },
             {
                 "titulo": "One Piece",
-                "capa": "https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/757b30ec7d08387877408f6681b6c678.jpg",
+                "capa": "https://wsrv.nl/?url=www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/757b30ec7d08387877408f6681b6c678.jpg",
                 "link": "LINK_AQUI"
             }
         ];
@@ -69,14 +65,13 @@
         const container = document.getElementById('animeList');
         
         animes.forEach(anime => {
-            // Adicionei um número aleatório (?v=...) no final da imagem para forçar o celular a baixar a imagem nova e não usar a velha
+            // Força o carregamento ignorando o cache antigo
             const cacheBuster = Math.floor(Math.random() * 1000);
             
             container.innerHTML += `
                 <div class="anime-card">
-                    <img src="${anime.capa}?v=${cacheBuster}" 
-                         alt="${anime.titulo}" 
-                         onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/pt/9/9c/Solo_Leveling_Webtoon.png';">
+                    <img src="${anime.capa}&v=${cacheBuster}" 
+                         alt="${anime.titulo}">
                     <h3>${anime.titulo}</h3>
                     <button class="btn-play" onclick="location.href='${anime.link}'">Assistir</button>
                 </div>
