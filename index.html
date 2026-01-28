@@ -5,15 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GT ANIMES</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 10px; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        h1 { color: #FF0000; margin-bottom: 20px; }
+        
+        .container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 20px; 
+        }
+
         .anime-card { 
             background: #111; 
-            padding: 10px; 
+            padding: 15px; 
             border-radius: 15px; 
             width: 160px; 
             border: 1px solid #FF0000;
         }
+
+        /* Links de imagem que funcionam em qualquer navegador */
         .anime-card img { 
             width: 100%; 
             height: 230px; 
@@ -21,8 +31,17 @@
             object-fit: cover;
             background: #222;
         }
-        .btn-play { background: #FF0000; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 8px; }
-        h1 { color: #FF0000; font-size: 24px; margin-bottom: 20px; }
+
+        .btn-play { 
+            background: #FF0000; 
+            color: #fff; 
+            border: none; 
+            padding: 10px; 
+            width: 100%; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            margin-top: 10px; 
+        }
     </style>
 </head>
 <body>
