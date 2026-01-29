@@ -7,60 +7,36 @@
     <style>
         body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 10px; }
         h1 { color: #FF0000; font-size: 26px; margin: 15px 0; font-weight: bold; }
-        
         .search-container { margin: 10px 15px 25px; }
         #searchBar { 
             width: 100%; padding: 12px; border-radius: 20px; 
             border: 2px solid #FF0000; background: #111; color: #fff; 
             outline: none; box-sizing: border-box;
         }
-
-        .container { 
-            display: grid; grid-template-columns: repeat(2, 1fr); 
-            gap: 15px; padding: 10px; 
-        }
-
-        .anime-card { 
-            background: #111; padding: 10px; border-radius: 12px; 
-            border: 1px solid #FF0000;
-        }
-
-        .anime-card img { 
-            width: 100%; height: 210px; border-radius: 8px; 
-            object-fit: cover; background: #222;
-            display: block;
-        }
-
+        .container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 10px; }
+        .anime-card { background: #111; padding: 10px; border-radius: 12px; border: 1px solid #FF0000; }
+        .anime-card img { width: 100%; height: 210px; border-radius: 8px; object-fit: cover; background: #222; display: block; }
         .anime-card p { margin: 10px 0; font-size: 14px; font-weight: bold; }
-        .btn-play { 
-            background: #FF0000; color: #fff; border: none; 
-            padding: 10px; width: 100%; border-radius: 5px; 
-            font-weight: bold; cursor: pointer;
-        }
+        .btn-play { background: #FF0000; color: #fff; border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <h1>GT ANIMES</h1>
-
     <div class="search-container">
         <input type="text" id="searchBar" placeholder="Pesquisar anime..." onkeyup="searchAnime()">
     </div>
-
     <div class="container" id="animeList">
         <div class="anime-card">
             <img src="solo.jpg" alt="Solo Leveling">
             <p>Solo Leveling</p>
             <button class="btn-play">ASSISTIR</button>
         </div>
-
         <div class="anime-card">
             <img src="onepiece.jpg" alt="One Piece">
             <p>One Piece</p>
             <button class="btn-play">ASSISTIR</button>
         </div>
     </div>
-
     <script>
         function searchAnime() {
             let input = document.getElementById('searchBar').value.toLowerCase();
