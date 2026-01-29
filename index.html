@@ -29,13 +29,14 @@
         .anime-card img { 
             width: 100%; height: 210px; border-radius: 8px; 
             object-fit: cover; background: #222;
+            display: block;
         }
 
         .anime-card p { margin: 10px 0; font-size: 14px; font-weight: bold; }
         .btn-play { 
             background: #FF0000; color: #fff; border: none; 
             padding: 10px; width: 100%; border-radius: 5px; 
-            font-weight: bold; 
+            font-weight: bold; cursor: pointer;
         }
     </style>
 </head>
@@ -49,13 +50,13 @@
 
     <div class="container" id="animeList">
         <div class="anime-card">
-            <img src="https://www.crunchyroll.com/imgsrv/display/thumbnail/480x720/catalog/crunchyroll/323c6987b3fdec759666657917961023.jpe" alt="Solo Leveling">
+            <img src="https://i.imgur.com/8N6q2vL.jpg" alt="Solo Leveling" onerror="this.src='https://via.placeholder.com/210x300/FF0000/FFFFFF?text=Solo+Leveling'">
             <p>Solo Leveling</p>
             <button class="btn-play">ASSISTIR</button>
         </div>
 
         <div class="anime-card">
-            <img src="https://cdn.myanimelist.net/images/anime/1244/138851.jpg" alt="One Piece">
+            <img src="https://i.imgur.com/T0T9G09.jpg" alt="One Piece" onerror="this.src='https://via.placeholder.com/210x300/FF0000/FFFFFF?text=One+Piece'">
             <p>One Piece</p>
             <button class="btn-play">ASSISTIR</button>
         </div>
@@ -65,17 +66,11 @@
         function searchAnime() {
             let input = document.getElementById('searchBar').value.toLowerCase();
             let cards = document.getElementsByClassName('anime-card');
-            
             for (let i = 0; i < cards.length; i++) {
                 let name = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
-                if (name.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+                cards[i].style.display = name.includes(input) ? "" : "none";
             }
         }
     </script>
-
 </body>
 </html>
